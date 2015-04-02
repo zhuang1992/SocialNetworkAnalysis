@@ -1,5 +1,11 @@
 package main;
 
+import ioformat.MyInputFormat;
+import ioformat.MyOutputFormat;
+import mapreduce.SocialCombiner;
+import mapreduce.SocialMapper;
+import mapreduce.SocialReducer;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -17,23 +23,22 @@ public class Main {
 	    //conf.set("training_file", args[0]);
 	    conf.set("test_file",args[1]);
 	    conf.set("output_file",args[2]);
-	    conf.set("knn.k",args[3]);
-	    Job job = Job.getInstance(conf, "kNN");
+	    Job job = Job.getInstance(conf, "Social");
 	    FileInputFormat.addInputPath(job, new Path(args[0]));
 	    Path out = new Path(args[2]);
 	    FileSystem.get(conf).delete(out, true);
         FileOutputFormat.setOutputPath(job, out);
         
-//	    job.setJarByClass(Main.class);
-//	    job.setMapperClass(kNNMapper.class);
-//	    job.setCombinerClass(kNNCombiner.class);
-//	    job.setReducerClass(kNNReducer.class);
-//	    job.setMapOutputKeyClass(IdAndData.class);
-//	    job.setMapOutputValueClass(DistanceAndClass.class);
-//	    job.setOutputKeyClass(IdAndData.class);
-//	    job.setOutputValueClass(Text.class);
-//        job.setInputFormatClass(MyInputFormat.class);
-//        job.setOutputFormatClass(MyOutputFormat.class);
+	    job.setJarByClass(Main.class);
+	    job.setMapperClass(SocialMapper.class);
+	    job.setCombinerClass(SocialCombiner.class);
+	    job.setReducerClass(SocialReducer.class);
+	    job.setMapOutputKeyClass(Text.class);
+	    job.setMapOutputValueClass(Text.class);
+	    job.setOutputKeyClass(Text.class);
+	    job.setOutputValueClass(Text.class);
+        job.setInputFormatClass(MyInputFormat.class);
+        job.setOutputFormatClass(MyOutputFormat.class);
         
 	    System.exit(job.waitForCompletion(true) ? 0 : 1);
 	  }
