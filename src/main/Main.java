@@ -1,11 +1,14 @@
 package main;
 
+<<<<<<< HEAD
 import ioformat.MyInputFormat;
 import ioformat.MyOutputFormat;
 import mapreduce.SocialCombiner;
 import mapreduce.SocialMapper;
 import mapreduce.SocialReducer;
 
+=======
+>>>>>>> 179f0f53f972673e6bd582a45b9329d89cf9c725
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
